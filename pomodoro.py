@@ -24,8 +24,11 @@ def countdown(minutes):
         print(f"{mins:02}:{secs:02}", end="\r")
         time.sleep(1) 
         seconds -= 1 
-        
     print("\nTime's up!")
     
 if __name__ == "__main__":
-    pomodoro_cycle(25, 5, 4) 
+    work_time = int(input("Enter work session duration (minutes): "))
+    break_time = int(input("Enter break duration (minutes): "))
+    cycles = int(input("Enter number of cycles: "))
+    
+    pomodoro_cycle(work_time, break_time, cycles)
