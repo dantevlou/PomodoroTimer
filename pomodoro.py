@@ -48,7 +48,10 @@ class PomodoroApp:
         self.auto_start = tk.BooleanVar()
         self.auto_start_check = tk.Checkbutton(root, text="Auto-Start Next Session", variable=self.auto_start, bg="#f0f4fd")
         self.auto_start_check.pack(pady=5)
-
+        
+        # Pause Indicator Label
+        self.pause_label = tk.Label(root, text="", font=("Helvetica", 14), bg="#f0f4fd", fg="#ff6347")
+        self.pause_label.pack(pady=5)
 
         tk.Label(input_frame, text="Work (min):", font=("Helvetica", 12), bg="#f0f4fd").grid(row=0, column=0, padx=5)
         self.work_entry = tk.Entry(input_frame, width=5)
@@ -157,11 +160,13 @@ class PomodoroApp:
             self.is_running = True
             self.update_timer()
             self.start_button.state(['disabled']) 
+            self.pause_label.config(text="")
 
     def pause_timer(self):
         self.is_running = False
         self.start_button.config(text="Resume")
         self.start_button.state(['!disabled'])
+        self.pause_label.config(text="Paused")
 
     def reset_timer(self):
         self.is_running = False
@@ -172,6 +177,7 @@ class PomodoroApp:
         self.start_button.config(text="Start")
         self.timer_label.config(text=f"{work_minutes:02}:00", fg="#333")
         self.start_button.state(['!disabled'])
+        self.pause_label.config(text="")
 
 if __name__ == "__main__":
     root = tk.Tk()
