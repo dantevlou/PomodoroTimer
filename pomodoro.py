@@ -34,6 +34,10 @@ class PomodoroApp:
         # Timer Label
         self.timer_label = tk.Label(root, text="25:00", font=("Helvetica", 50, "bold"), bg="#f0f4fd", fg="#333")
         self.timer_label.pack(pady=10)
+        
+        # Progress Bar
+        self.progress = ttk.Progressbar(root, length=300, mode='determinate')
+        self.progress.pack(pady=10)
 
         # --- Duration Inputs ---
         input_frame = tk.Frame(root, bg="#f0f4fd")
@@ -87,8 +91,14 @@ class PomodoroApp:
         if self.remaining_time > 0 and self.is_running:
             mins, secs = divmod(self.remaining_time, 60)
             self.timer_label.config(text=f"{mins:02}:{secs:02}")
+            
+            total_time = self.work_time if self.is_work_session else self.break_time
+            progress_value = ((total_time - self.remaining_time) / total_time) * 100
+            self.progress['value'] = progress_value
+            
             self.remaining_time -= 1
             self.root.after(1000, self.update_timer)
+            
         elif self.remaining_time == 0:
             if self.is_work_session:
                 self.remaining_time = self.break_time
@@ -117,6 +127,7 @@ class PomodoroApp:
         self.remaining_time = self.work_time
         self.is_work_session = True
         work_minutes = self.work_time // 60
+        self.progress['value'] = 0
         self.start_button.config(text="Start")
         self.timer_label.config(text=f"{work_minutes:02}:00", fg="#333")
 
