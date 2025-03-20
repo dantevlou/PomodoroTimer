@@ -19,12 +19,17 @@ class PomodoroApp:
         position_y = (screen_height // 2) - (window_height // 2)
         self.root.geometry(f"{window_width}x{window_height}+{position_x}+{position_y}")
         
-        # Timer settings
+        # Timer Settings
         self.work_time = 25 * 60
         self.break_time = 5 * 60
         self.remaining_time = self.work_time
         self.is_running = False
         self.is_work_session = True
+        
+        # Session Count
+        self.session_count = 0
+        self.counter_label = tk.Label(root, text="Sessions Completed: 0", font=("Helvetica", 12), bg="#f0f4fd", fg="#777")
+        self.counter_label.pack(pady=5)
 
         # UI Elements
         self.session_label = tk.Label(root, text="Work Session", font=("Helvetica", 20, "bold"), bg="#f0f4fd", fg="#555")
@@ -67,7 +72,7 @@ class PomodoroApp:
                 self.is_work_session = True
                 self.session_label.config(text="Work Session", fg="#555")
 
-            self.root.after(1000, self.update_timer)
+            self.update_timer()
         
     def start_timer(self):
         """Starts the countdown timer."""
