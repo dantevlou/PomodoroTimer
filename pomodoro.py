@@ -62,8 +62,8 @@ class PomodoroApp:
         self.start_button = ttk.Button(button_frame, text="Start", command=self.start_timer)
         self.start_button.grid(row=0, column=0, padx=10)
 
-        self.stop_button = ttk.Button(button_frame, text="Pause", command=self.pause_timer)
-        self.stop_button.grid(row=0, column=1, padx=10)
+        self.pause_button = ttk.Button(button_frame, text="Pause", command=self.pause_timer)
+        self.pause_button.grid(row=0, column=1, padx=10)
 
         self.reset_button = ttk.Button(button_frame, text="Reset", command=self.reset_timer)
         self.reset_button.grid(row=0, column=2, padx=10)
@@ -106,15 +106,18 @@ class PomodoroApp:
         if not self.is_running:
             self.is_running = True
             self.update_timer()
+            self.start_button.config(text="Start") 
 
     def pause_timer(self):
         self.is_running = False
+        self.start_button.config(text="Resume")
 
     def reset_timer(self):
         self.is_running = False
         self.remaining_time = self.work_time
         self.is_work_session = True
         work_minutes = self.work_time // 60
+        self.start_button.config(text="Start")
         self.timer_label.config(text=f"{work_minutes:02}:00", fg="#333")
 
 if __name__ == "__main__":
