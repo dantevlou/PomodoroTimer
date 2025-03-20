@@ -72,6 +72,9 @@ class PomodoroApp:
         # Pause Indicator Label
         self.pause_label = tk.Label(root, text="", font=("Helvetica", 14), bg="#f0f4fd", fg="#ff6347")
         self.pause_label.pack(pady=5)
+        
+        self.work_entry.bind("<KeyRelease>", self.highlight_set_button)
+        self.break_entry.bind("<KeyRelease>", self.highlight_set_button)
 
         # Styles
         style = ttk.Style()
@@ -111,6 +114,19 @@ class PomodoroApp:
             foreground=[('pressed', '#1e1e2f'), ('active', '#1e1e2f')]
         )
         
+        style.configure("Highlight.TButton",
+            foreground="#1e1e2f",
+            background="#f6ad55",
+            borderwidth=0,
+            padding=10,
+            font=("Helvetica", 12)
+        )
+
+        style.map("Highlight.TButton",
+            background=[('active', '#ed8936'), ('pressed', '#dd6b20')],
+            foreground=[('pressed', '#1e1e2f'), ('active', '#1e1e2f')]
+        )
+        
         # Buttons
         button_frame = tk.Frame(root, bg="#f0f4fd")
         button_frame.pack(pady=20)
@@ -136,6 +152,7 @@ class PomodoroApp:
             self.remaining_time = self.work_time
             self.is_work_session = True
             self.timer_label.config(text=f"{work_minutes:02}:00", fg="#333")
+            self.set_button.configure(style="App.TButton")
         except ValueError:
             self.timer_label.config(text="Invalid Input", fg="red")
             
@@ -216,6 +233,10 @@ class PomodoroApp:
         self.timer_label.config(text=f"{work_minutes:02}:00", fg="#333")
         self.start_button.state(['!disabled'])
         self.pause_label.config(text="")
+        
+    def highlight_set_button(self, event):
+        self.set_button.configure(style="Highlight.TButton")
+
 
 if __name__ == "__main__":
     root = tk.Tk()
