@@ -8,7 +8,7 @@ class PomodoroApp:
     def __init__(self, root):
         self.root = root
         self.root.title("Pomodoro Timer")
-        self.root.configure(bg="#8f99fb")
+        self.root.configure(bg="#f0f4fd")
 
         screen_width = self.root.winfo_screenwidth()
         screen_height = self.root.winfo_screenheight()
@@ -26,7 +26,7 @@ class PomodoroApp:
         self.is_work_session = True
 
         # UI Elements
-        self.timer_label = tk.Label(root, text="25:00", font=("Helvetica", 40), bg="#FBBf8F", fg="#333")
+        self.timer_label = tk.Label(root, text="25:00", font=("Helvetica", 50, "bold"), bg="#f0f4fd", fg="#333")
         self.timer_label.pack(pady=20)
         
         self.start_button = tk.Button(root, text="Start", font=("Helvetica", 14), command=self.start_timer)
