@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+from playsound import playsound
 
 class PomodoroApp:
     def __init__(self, root):
@@ -82,7 +83,7 @@ class PomodoroApp:
         style.map("App.TButton",
             background=[('active', '#2e59d9'), ('pressed', '#1c3faa')],
             foreground=[('pressed', '#fff'), ('active', '#fff')]
-)
+        )
         
         # Buttons
         button_frame = tk.Frame(root, bg="#f0f4fd")
@@ -128,6 +129,7 @@ class PomodoroApp:
             self.root.after(1000, self.update_timer)
             
         elif self.remaining_time == 0:
+            playsound('sounds/alarm.mp3')
             if self.is_work_session:
                 self.remaining_time = self.break_time
                 self.is_work_session = False
