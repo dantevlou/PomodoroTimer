@@ -144,6 +144,9 @@ class PomodoroApp:
             if self.auto_start.get():
                 self.is_running = True
                 self.update_timer()
+            else:
+                self.is_running = False
+                self.start_button.config(text="Resume")
 
     def start_timer(self):
         if not self.is_running:
