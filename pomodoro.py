@@ -129,7 +129,10 @@ class PomodoroApp:
             self.root.after(1000, self.update_timer)
             
         elif self.remaining_time == 0:
+            # Play Sound
             playsound('sounds/alarm.mp3')
+            
+            # Switch Session
             if self.is_work_session:
                 self.remaining_time = self.break_time
                 self.is_work_session = False
@@ -146,17 +149,19 @@ class PomodoroApp:
                 self.update_timer()
             else:
                 self.is_running = False
+                self.start_button.state(['!disabled'])
                 self.start_button.config(text="Resume")
 
     def start_timer(self):
         if not self.is_running:
             self.is_running = True
             self.update_timer()
-            self.start_button.config(text="Start") 
+            self.start_button.state(['disabled']) 
 
     def pause_timer(self):
         self.is_running = False
         self.start_button.config(text="Resume")
+        self.start_button.state(['!disabled'])
 
     def reset_timer(self):
         self.is_running = False
@@ -166,6 +171,7 @@ class PomodoroApp:
         self.progress['value'] = 0
         self.start_button.config(text="Start")
         self.timer_label.config(text=f"{work_minutes:02}:00", fg="#333")
+        self.start_button.state(['!disabled'])
 
 if __name__ == "__main__":
     root = tk.Tk()
