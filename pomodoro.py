@@ -16,6 +16,30 @@ class PomodoroApp:
         position_y = (screen_height // 2) - (window_height // 2)
         self.root.geometry(f"{window_width}x{window_height}+{position_x}+{position_y}")
         
+        input_frame = tk.Frame(root, bg="#fff")
+        input_frame.pack(pady=10)
+
+        # Work Input
+        tk.Label(input_frame, text="Work (min):", font=("Helvetica", 12), bg="#f0f4fd", fg="#777").grid(row=0, column=0, padx=5)
+        self.work_entry = tk.Entry(input_frame, width=5)
+        self.work_entry.insert(0, "25")
+        self.work_entry.grid(row=0, column=1, padx=5)
+
+        # Break Input
+        tk.Label(input_frame, text="Break (min):", font=("Helvetica", 12), bg="#f0f4fd", fg="#777").grid(row=0, column=2, padx=5)
+        self.break_entry = tk.Entry(input_frame, width=5)
+        self.break_entry.insert(0, "5")
+        self.break_entry.grid(row=0, column=3, padx=5)
+
+        # Set Duration Button
+        self.set_button = ttk.Button(input_frame, text="Set Duration", command=self.set_durations, style="App.TButton")
+        self.set_button.grid(row=1, column=0, columnspan=4, pady=10)
+        
+        # Reset Duration Button
+        self.reset_duration_button = ttk.Button(input_frame, text="Reset Duration", command=self.reset_durations, style="App.TButton")
+        self.reset_duration_button.grid(row=2, column=0, columnspan=4, pady=5)
+
+        
         # Default Timer Settings
         self.work_time = 25 * 60
         self.break_time = 5 * 60
@@ -39,10 +63,6 @@ class PomodoroApp:
         # Progress Bar
         self.progress = ttk.Progressbar(root, length=300, mode='determinate', style="App.Horizontal.TProgressbar")
         self.progress.pack(pady=10)
-
-        # Duration Inputs
-        input_frame = tk.Frame(root, bg="#f0f4fd")
-        input_frame.pack(pady=10)
         
         # Auto-Start Next Session
         self.auto_start = tk.BooleanVar()
@@ -52,16 +72,6 @@ class PomodoroApp:
         # Pause Indicator Label
         self.pause_label = tk.Label(root, text="", font=("Helvetica", 14), bg="#f0f4fd", fg="#ff6347")
         self.pause_label.pack(pady=5)
-
-        tk.Label(input_frame, text="Work (min):", font=("Helvetica", 12), bg="#f0f4fd").grid(row=0, column=0, padx=5)
-        self.work_entry = tk.Entry(input_frame, width=5)
-        self.work_entry.insert(0, "25")
-        self.work_entry.grid(row=0, column=1, padx=5)
-
-        tk.Label(input_frame, text="Break (min):", font=("Helvetica", 12), bg="#f0f4fd").grid(row=0, column=2, padx=5)
-        self.break_entry = tk.Entry(input_frame, width=5)
-        self.break_entry.insert(0, "5")
-        self.break_entry.grid(row=0, column=3, padx=5)
 
         # Styles
         style = ttk.Style()
@@ -100,9 +110,6 @@ class PomodoroApp:
 
         self.reset_button = ttk.Button(button_frame, text="Reset", command=self.reset_timer, style="App.TButton")
         self.reset_button.grid(row=0, column=2, padx=10)
-        
-        self.set_button = ttk.Button(root, text="Set Duration", command=self.set_durations, style="App.TButton")
-        self.set_button.pack(pady=5)
 
     def set_durations(self):
         """Set custom work/break durations based on user input."""
@@ -118,6 +125,19 @@ class PomodoroApp:
             self.timer_label.config(text=f"{work_minutes:02}:00", fg="#333")
         except ValueError:
             self.timer_label.config(text="Invalid Input", fg="red")
+            
+    def reset_durations(self):
+        self.work_entry.delete(0, tk.END)
+        self.work_entry.insert(0, "25")
+
+        self.break_entry.delete(0, tk.END)
+        self.break_entry.insert(0, "5")
+
+        self.work_time = 25 * 60
+        self.break_time = 5 * 60
+        self.remaining_time = self.work_time
+        self.is_work_session = True
+        self.timer_label.config(text="25:00", fg="#333", bg="#f0f4fd", font=("Helvetica", 50, "bold"))
 
     def update_timer(self):
         if self.remaining_time > 0 and self.is_running:
