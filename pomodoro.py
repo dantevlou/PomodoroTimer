@@ -15,7 +15,7 @@ class PomodoroApp:
 
     def setup_window(self):
         """Center window on screen."""
-        width, height = 500, 550
+        width, height = 500, 600
         screen_w = self.root.winfo_screenwidth()
         screen_h = self.root.winfo_screenheight()
         pos_x = (screen_w // 2) - (width // 2)
