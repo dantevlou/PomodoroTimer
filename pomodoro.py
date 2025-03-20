@@ -98,6 +98,19 @@ class PomodoroApp:
             foreground=[('pressed', '#fff'), ('active', '#fff')]
         )
         
+        style.configure("Resume.TButton",
+            foreground="#1e1e2f",
+            background="#f6ad55",
+            borderwidth=0,
+            padding=12,
+            font=("Century Gothic", 14)
+        )
+
+        style.map("Resume.TButton",
+            background=[('active', '#ed8936'), ('pressed', '#dd6b20')],
+            foreground=[('pressed', '#1e1e2f'), ('active', '#1e1e2f')]
+        )
+        
         # Buttons
         button_frame = tk.Frame(root, bg="#f0f4fd")
         button_frame.pack(pady=20)
@@ -174,18 +187,22 @@ class PomodoroApp:
                 self.is_running = False
                 self.start_button.state(['!disabled'])
                 self.start_button.config(text="Resume")
+                self.start_button.configure(style="Resume.TButton")
 
     def start_timer(self):
         if not self.is_running:
             self.is_running = True
-            self.update_timer()
             self.start_button.state(['disabled']) 
+            self.start_button.config(text="Start")
+            self.start_button.configure(style="App.TButton")
             self.pause_label.config(text="")
+            self.update_timer()
 
     def pause_timer(self):
         self.is_running = False
         self.start_button.config(text="Resume")
         self.start_button.state(['!disabled'])
+        self.start_button.configure(style="Resume.TButton")
         self.pause_label.config(text="Paused")
 
     def reset_timer(self):
@@ -195,6 +212,7 @@ class PomodoroApp:
         work_minutes = self.work_time // 60
         self.progress['value'] = 0
         self.start_button.config(text="Start")
+        self.start_button.configure(style="App.TButton")
         self.timer_label.config(text=f"{work_minutes:02}:00", fg="#333")
         self.start_button.state(['!disabled'])
         self.pause_label.config(text="")
