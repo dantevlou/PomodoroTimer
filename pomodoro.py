@@ -26,6 +26,9 @@ class PomodoroApp:
         self.is_work_session = True
 
         # UI Elements
+        self.session_label = tk.Label(root, text="Work Session", font=("Helvetica", 20, "bold"), bg="#f0f4fd", fg="#555")
+        self.session_label.pack(pady=20)
+
         self.timer_label = tk.Label(root, text="25:00", font=("Helvetica", 50, "bold"), bg="#f0f4fd", fg="#333")
         self.timer_label.pack(pady=20)
         
@@ -50,12 +53,12 @@ class PomodoroApp:
             if self.is_work_session:
                 self.remaining_time = self.break_time
                 self.is_work_session = False
-                self.timer_label.config(text="Break Time!", fg="#1E90FF")
+                self.session_label.config(text="Break Session", fg="#1E90FF")
             else:
                 self.remaining_time = self.work_time
                 self.is_work_session = True
-                self.timer_label.config(text="Break Time Over!", fg="#333")
-                
+                self.session_label.config(text="Work Session", fg="#555")
+
             self.root.after(1000, self.update_timer)
         
     def start_timer(self):
