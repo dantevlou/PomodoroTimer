@@ -9,7 +9,7 @@ class PomodoroApp:
 
         screen_width = self.root.winfo_screenwidth()
         screen_height = self.root.winfo_screenheight()
-        window_width = 400
+        window_width = 500
         window_height = 550
         position_x = (screen_width // 2) - (window_width // 2)
         position_y = (screen_height // 2) - (window_height // 2)
@@ -42,6 +42,12 @@ class PomodoroApp:
         # Duration Inputs
         input_frame = tk.Frame(root, bg="#f0f4fd")
         input_frame.pack(pady=10)
+        
+        # Auto-Start Next Session
+        self.auto_start = tk.BooleanVar()
+        self.auto_start_check = tk.Checkbutton(root, text="Auto-Start Next Session", variable=self.auto_start, bg="#f0f4fd")
+        self.auto_start_check.pack(pady=5)
+
 
         tk.Label(input_frame, text="Work (min):", font=("Helvetica", 12), bg="#f0f4fd").grid(row=0, column=0, padx=5)
         self.work_entry = tk.Entry(input_frame, width=5)
@@ -132,7 +138,10 @@ class PomodoroApp:
                 self.session_count += 1
                 self.counter_label.config(text=f"Sessions Completed: {self.session_count}")
                 self.session_label.config(text="Work Session", fg="#555")
-            self.update_timer()
+            
+            if self.auto_start.get():
+                self.is_running = True
+                self.update_timer()
 
     def start_timer(self):
         if not self.is_running:
