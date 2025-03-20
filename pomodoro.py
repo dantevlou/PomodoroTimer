@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import ttk
 import time
 
 class PomodoroApp:
@@ -32,14 +33,21 @@ class PomodoroApp:
         self.timer_label = tk.Label(root, text="25:00", font=("Helvetica", 50, "bold"), bg="#f0f4fd", fg="#333")
         self.timer_label.pack(pady=20)
         
-        self.start_button = tk.Button(root, text="Start", font=("Helvetica", 14), command=self.start_timer)
-        self.start_button.pack(pady=5)
-        
-        self.stop_button = tk.Button(root, text="Stop", font=("Helvetica", 14), command=self.stop_timer)
-        self.stop_button.pack(pady=5)
-        
-        self.reset_button = tk.Button(root, text="Reset", font=("Helvetica", 14), command=self.reset_timer)
-        self.reset_button.pack(pady=5)
+        button_frame = tk.Frame(root, bg="#f0f4fd")
+        button_frame.pack(pady=30)
+
+        style = ttk.Style()
+        style.configure("TButton", padding=10, relief="flat", background="#8f99fb", font=("Helvetica", 12))
+
+        self.start_button = ttk.Button(button_frame, text="Start", command=self.start_timer)
+        self.start_button.grid(row=0, column=0, padx=10)
+
+        self.stop_button = ttk.Button(button_frame, text="Stop", command=self.stop_timer)
+        self.stop_button.grid(row=0, column=1, padx=10)
+
+        self.reset_button = ttk.Button(button_frame, text="Reset", command=self.reset_timer)
+        self.reset_button.grid(row=0, column=2, padx=10)
+
         
     def update_timer(self):
         """Updates the countdown timer in the GUI."""
