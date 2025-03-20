@@ -36,10 +36,10 @@ class PomodoroApp:
         self.timer_label.pack(pady=10)
         
         # Progress Bar
-        self.progress = ttk.Progressbar(root, length=300, mode='determinate')
+        self.progress = ttk.Progressbar(root, length=300, mode='determinate', style="App.Horizontal.TProgressbar")
         self.progress.pack(pady=10)
 
-        # --- Duration Inputs ---
+        # Duration Inputs
         input_frame = tk.Frame(root, bg="#f0f4fd")
         input_frame.pack(pady=10)
 
@@ -53,24 +53,46 @@ class PomodoroApp:
         self.break_entry.insert(0, "5")
         self.break_entry.grid(row=0, column=3, padx=5)
 
-        self.set_button = ttk.Button(root, text="Set Durations", command=self.set_durations)
-        self.set_button.pack(pady=5)
+        # Styles
+        style = ttk.Style()
+        style.theme_use('clam')
+        
+        style.configure("App.TButton",
+            foreground="#fff",
+            background="#4e73df",
+            borderwidth=0,
+            focusthickness=3,
+            focuscolor='none',
+            padding=10,
+            font=("Helvetica", 12)
+        )
+        style.configure("App.Horizontal.TProgressbar",
+            troughcolor='#d6d6d6',   
+            background='#4e73df',       
+            thickness=20,
+            borderwidth=0
+        )
 
-        # --- Buttons ---
+        style.map("App.TButton",
+            background=[('active', '#2e59d9'), ('pressed', '#1c3faa')],
+            foreground=[('pressed', '#fff'), ('active', '#fff')]
+)
+        
+        # Buttons
         button_frame = tk.Frame(root, bg="#f0f4fd")
         button_frame.pack(pady=20)
 
-        style = ttk.Style()
-        style.configure("TButton", padding=10, relief="flat", background="#8f99fb", font=("Helvetica", 12))
-
-        self.start_button = ttk.Button(button_frame, text="Start", command=self.start_timer)
+        self.start_button = ttk.Button(button_frame, text="Start", command=self.start_timer, style="App.TButton")
         self.start_button.grid(row=0, column=0, padx=10)
 
-        self.pause_button = ttk.Button(button_frame, text="Pause", command=self.pause_timer)
+        self.pause_button = ttk.Button(button_frame, text="Pause", command=self.pause_timer, style="App.TButton")
         self.pause_button.grid(row=0, column=1, padx=10)
 
-        self.reset_button = ttk.Button(button_frame, text="Reset", command=self.reset_timer)
+        self.reset_button = ttk.Button(button_frame, text="Reset", command=self.reset_timer, style="App.TButton")
         self.reset_button.grid(row=0, column=2, padx=10)
+        
+        self.set_button = ttk.Button(root, text="Set Duration", command=self.set_durations, style="App.TButton")
+        self.set_button.pack(pady=5)
 
     def set_durations(self):
         """Set custom work/break durations based on user input."""
