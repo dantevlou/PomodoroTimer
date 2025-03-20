@@ -12,13 +12,10 @@ class PomodoroApp:
 
         screen_width = self.root.winfo_screenwidth()
         screen_height = self.root.winfo_screenheight()
-
-        window_width = int(screen_width * 0.2)
-        window_height = int(screen_height * 0.4)
-
-        position_x = 0      
-        position_y = 0
-
+        window_width = 400
+        window_height = 500
+        position_x = (screen_width // 2) - (window_width // 2)
+        position_y = (screen_height // 2) - (window_height // 2)
         self.root.geometry(f"{window_width}x{window_height}+{position_x}+{position_y}")
         
         # Timer settings
